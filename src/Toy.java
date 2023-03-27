@@ -1,12 +1,14 @@
+
 public abstract class Toy {
     private int id;
+    private static int count = 0;
     private String name;
     private int quantity;
     private int weight;
     private String material = "Неизвестно";
 
-    public Toy(int id, String name, int quantity, int weight) {
-        this.id = id;
+    public Toy(String name, int quantity, int weight) {
+        this.id = ++count;
         this.name = name;
         this.quantity = quantity;
         this.weight = weight;

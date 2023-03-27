@@ -1,8 +1,8 @@
 public class RubberToy extends Toy {
     private String material = "резина";
 
-    public RubberToy(int id, String name, int quantity, int weight) {
-        super(id, name, quantity, weight);
+    public RubberToy(String name, int quantity, int weight) {
+        super( name, quantity, weight);
     }
 
     @Override
