@@ -13,16 +13,6 @@ public class ToyStore {
     public void addToy(Toy toy) {
         toys.add(toy);
     }
-
-    public void setToyWeight(int toyId, int weight) {
-        for (Toy toy : toys) {
-            if (toy.getId() == toyId) {
-                toy.setWeight(weight);
-                break;
-            }
-        }
-    }
-
     public Toy drawToy() {
         return drawToy.drawToy(toys);
     }
@@ -53,7 +43,7 @@ public class ToyStore {
     public void saveToyToFile(Toy toy, String filename) {
         try {
             FileWriter writer = new FileWriter(filename, true);
-            writer.write(toy.getId() + "," + toy.getName() + "\n");
+            writer.write(toy.toString() + "\n");
             writer.close();
         } catch (IOException e) {
             System.out.println("Ошибка записи в файл");

@@ -1,10 +1,9 @@
-public class Toy {
+public abstract class Toy {
     private int id;
     private String name;
     private int quantity;
     private int weight;
-
-
+    private String material = "Неизвестно";
 
     public Toy(int id, String name, int quantity, int weight) {
         this.id = id;
@@ -40,8 +39,6 @@ public class Toy {
         quantity--;
     }
 
-    @Override
-    public String toString() {
-        return "ID: " + this.id + ", Название игрушки: " + this.name + ", количество: " + this.quantity + ", вес " + this.weight;
-    }
+    public abstract String toString();
+    public abstract String getMaterial();
 }
