@@ -1,8 +1,8 @@
 public class SoftToy extends Toy {
     private String material = "мягкая";
 
-    public SoftToy( String name, int quantity, int weight) {
-        super(name, quantity, weight);
+    public SoftToy(int id, String name, int quantity, int weight) {
+        super(id, name, quantity, weight);
 
     }
 

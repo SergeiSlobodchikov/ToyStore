@@ -1,32 +1,28 @@
 import java.util.Scanner;
-import java.util.function.Predicate;
 
 public class Menu {
     public static void menu() {
         ToyStore store = new ToyStore();
         Scanner scanner = new Scanner(System.in);
         // добавляем игрушки в магазин
-        Toy toy1 = new RubberToy("Мяч", 10, 20);
-        Toy toy2 = new RubberToy("Кукла", 10, 35);
-        Toy toy3 = new PlasticToy("Конструктор замок", 10, 50);
-        Toy toy4 = new SoftToy("Мишка", 10, 71);
-        Toy toy5 = new SoftToy("Малый мишка", 10, 20);
-        Toy toy6 = new SoftToy("Средний мишка", 10, 45);
+        Toy toy1 = new RubberToy(1, "Мяч", 10, 20);
+        Toy toy2 = new RubberToy(2, "Кукла", 10, 40);
+        Toy toy3 = new PlasticToy(3, "Конструктор замок", 10, 50);
+        Toy toy4 = new SoftToy(4, "Мишка", 10, 71);
+        Toy toy5 = new SoftToy(5, "Малый мишка", 10, 20);
         store.addToy(toy1);
         store.addToy(toy2);
         store.addToy(toy3);
         store.addToy(toy4);
         store.addToy(toy5);
-        store.addToy(toy6);
 
         while (true) {
             System.out.println("Меню:");
-            System.out.println("1. Добавить новую игрушку в розыгрыш");
+            System.out.println("1. Добавить игрушку в розыгрыш");
             System.out.println("2. Изменить вес вероятности выигрыша");
             System.out.println("3. Начать розыгрыш");
             System.out.println("4. Показать список всех игрушек");
-            System.out.println("5. Увеличить количество игрушки по ID");
-            System.out.println("6. Выход");
+            System.out.println("5. Выход");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Считываем символ перевода строки
@@ -40,8 +36,6 @@ public class Menu {
             } else if (choice == 4) {
                 printAllToys(store);
             } else if (choice == 5) {
-                increaseToy(store, scanner);
-            } else if (choice == 6) {
                 break;
             }
 
@@ -50,38 +44,31 @@ public class Menu {
     }
 
     public static void addNewToy(ToyStore store, Scanner scanner) {
-        int toyType = promptInt(scanner, "Выберите тип игрушки (1 - пластиковая, 2 - резиновая, 3 - мягкая):", n -> n >= 1 && n <= 3);
-        String name = promptString(scanner, "Название игрушки: ");
-        int quantity = promptInt(scanner, "Количество: ", n -> n >= 0);
-        int weight = promptInt(scanner, "Вес игрушки: ", n -> n > 0);
+        System.out.println("Выберите тип игрушки (1 - пластиковая, 2 - резиновая, 3 - мягкая):");
+        int toyType = scanner.nextInt();
+        scanner.nextLine(); // Считываем символ перевода строки
+
+        System.out.println("Введите id, название, количество и вес игрушки:");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Считываем символ перевода строки
+        String name = scanner.nextLine();
+        int quantity = scanner.nextInt();
+        int weight = scanner.nextInt();
+
         switch (toyType) {
             case 1:
-                store.addToy(new PlasticToy(name, quantity, weight));
+                store.addToy(new PlasticToy(id, name, quantity, weight));
                 break;
             case 2:
-                store.addToy(new RubberToy(name, quantity, weight));
+                store.addToy(new RubberToy(id, name, quantity, weight));
                 break;
             case 3:
-                store.addToy(new SoftToy(name, quantity, weight));
+                store.addToy(new SoftToy(id, name, quantity, weight));
+                break;
+            default:
+                System.out.println("Выбран некорректный тип игрушки.");
                 break;
         }
-    }
-
-    private static int promptInt(Scanner scanner, String prompt, Predicate<Integer> validator) {
-        while (true) {
-            System.out.print(prompt);
-            try {
-                int n = Integer.parseInt(scanner.nextLine());
-                if (validator.test(n)) return n;
-            } catch (NumberFormatException ignored) {
-            }
-            System.out.println("Некорректный ввод. Попробуйте ещё раз.");
-        }
-    }
-
-    private static String promptString(Scanner scanner, String prompt) {
-        System.out.print(prompt);
-        return scanner.nextLine();
     }
 
 
@@ -90,15 +77,17 @@ public class Menu {
                           " Маленькие игрушки 65 %% вес до: %s\n" +
                           " Средние игрушки  35 %% вес до: %s\n" +
                           " Большие игрушки  10 %% вес до: %s\n" +
-                          " Вес маленьких: ", store.getSmallToys(), store.getMediumToys(), store.getBigToys());
-        int small = promptInt(scanner, "Вес маленьких: ", n -> n > 0);
-        int medium = promptInt(scanner, "Вес средних: ", n -> n > small);
-        int big = promptInt(scanner, "Вес больших: ", n -> n > medium);
+                          " Супер большие 1 %% \nВес маленьких: ", store.getSmallToys(), store.getMediumToys(), store.getBigToys());
+        int small = scanner.nextInt();
         store.setSmallToys(small);
+        scanner.nextLine(); // Считываем символ перевода строки
+        System.out.print("Вес средних: ");
+        int medium = scanner.nextInt();
         store.setMediumToys(medium);
+        System.out.print("Вес больших: ");
+        int big = scanner.nextInt();
         store.setBigToys(big);
     }
-
 
     public static void startToyDraw(ToyStore store) {
         Toy toy = store.drawToy();
@@ -115,12 +104,5 @@ public class Menu {
         for (Toy toy : store.getToys()) {
             System.out.println(toy.toString());
         }
-    }
-
-    public static void increaseToy(ToyStore store, Scanner scanner) {
-        int id = promptInt(scanner, "Введите ID игрушки, количество которой хотите увеличить: ",
-                n -> n > 0 && n <= store.getToys().size());
-        int quantity = promptInt(scanner, "Введите количество: ", n -> n >= 0);
-        store.increaseToyQuantity(id, quantity);
     }
 }

@@ -53,14 +53,4 @@ public class ToyStore {
     public List<Toy> getToys() {
         return toys;
     }
-
-    public void increaseToyQuantity(int toyId, int quantityToAdd) {
-        for (Toy toy : toys) {
-            if (toy.getId() == toyId) {
-                toy.setQuantity(toy.getQuantity() + quantityToAdd);
-                return;
-            }
-        }
-        System.out.println("Игрушка с ID " + toyId + " не найдена в магазине.");
-    }
 }
